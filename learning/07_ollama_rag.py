@@ -54,8 +54,11 @@ def retrieve_context(question, documents, embedding_model):
         combined_score = (0.7 * float(semantic_score)) + (0.3 * keyword_score)
         results.append((combined_score, document))
 
-    selected = [result for result in results if result[0] >= 0.58]
+    selected = [result for result in results if result[0] >= 0.45]
     selected.sort(key=lambda result: result[0], reverse=True)
+    print("\nRetrieval scores:")
+    for score, document in results:
+        print(f"{document['name']}: {score:.3f}")
 
     context_parts = []
     for score, document in selected:
@@ -106,12 +109,27 @@ if not context:
     print("I could not find enough relevant code to answer confidently.")
     raise SystemExit
 
-prompt = f"""You are Codebase Compass, a software codebase assistant.
-Answer the user's question using only the provided CONTEXT.
-Explain the implementation in plain language.
-Cite the relevant file path and line number.
-Do not invent behavior that is not shown in the context.
-If the context is insufficient, say that clearly.
+prompt = f"""You are Codebase Compass.
+
+Answer using only the provided code context.
+
+Use exactly this format:
+
+Answer:
+[2-4 concise sentences]
+
+Evidence:
+- [file path, line number]: [what the line directly shows]
+
+Not shown:
+- [state any function behavior whose implementation is missing]
+
+Strict rules:
+- Do not infer or assume function behavior.
+- Do not say a function compares, hashes, validates, or returns something unless its body is shown.
+- You may describe which arguments are passed to a function.
+- Mention exact file paths and line numbers.
+- If information is missing, explicitly say: "The implementation is not shown in the retrieved context."
 
 CONTEXT:
 {context}
