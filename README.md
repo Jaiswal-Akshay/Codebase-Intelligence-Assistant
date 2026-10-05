@@ -1,26 +1,22 @@
 Codebase Compass
 Codebase Compass is a local RAG assistant that analyzes software repositories and explains code using grounded file and line citations.
-Requirements
-- Python 3.10+
-- Ollama
-- Ollama model: llama3:latest
+
 Installation
 python -m pip install -r requirements.txt
+
 Ollama Setup
 Make sure Ollama is running and the model is installed:
 ollama pull llama3:latest
+
 Run
-From the project root:
+# Clone the GitHub repository into the repositories folder
+git clone https://github.com/username/project-name.git .\repositories\project-name
+
+# Tell Python where the Codebase Compass source code is located
 $env:PYTHONPATH = "src"
-python -m codebase_assistant .\sample_project
+
+# Start Codebase Compass and analyze the cloned repository
+python -m codebase_assistant .\repositories\project-name
+
 You can also provide a question directly:
-python -m codebase_assistant .\sample_project "How are user credentials verified?"
-Evaluation
-$env:PYTHONPATH = "src"
-python evaluation\evaluate_retrieval.py .\sample_project
-Main Features
-- Multi-format repository ingestion
-- Semantic and keyword retrieval
-- Dependency-aware context expansion
-- Local Ollama generation
-- Citation and unsupported-claim validation
+python -m codebase_assistant .\repositories\project-name "Your Question"
