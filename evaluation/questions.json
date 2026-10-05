@@ -1,0 +1,17 @@
+[
+  {
+    "question": "How are user credentials verified?",
+    "expected_files": ["authentication.py", "security.py"],
+    "expected_terms": ["verify_password", "password_hash"]
+  },
+  {
+    "question": "Where is the database connection created?",
+    "expected_files": ["database.py"],
+    "expected_terms": ["psycopg2", "get_connection"]
+  },
+  {
+    "question": "How are order totals calculated?",
+    "expected_files": ["order.py"],
+    "expected_terms": ["calculate_total", "products"]
+  }
+]
